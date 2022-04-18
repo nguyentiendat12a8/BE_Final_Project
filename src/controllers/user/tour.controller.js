@@ -43,7 +43,7 @@ exports.listTour = (req, res, next) => {
 }
 
 exports.detailTour = (req, res, next) => {
-    Tour.findOne({ slug: req.query.slug }, async (err, tour) => {
+    Tour.findOne({ slug: req.params.slug }, async (err, tour) => {
         if (err) return res.status(500).send({
             errorCode: 500,
             message: 'Detail tour function is error!'

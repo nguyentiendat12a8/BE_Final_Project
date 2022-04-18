@@ -7,7 +7,7 @@ const { upload } = require('../../util/uploadFile.middleware')
 const router = express.Router()
 
 router.get('/list-tour', listTour) 
-router.get('/detail-tour', detailTour)
+router.get('/detail-tour/:slug', detailTour)
 router.get('/payment-tour',[verifyToken], paymentTour)
 router.get('/success/:tourID',[verifyToken], success) //:tourID
 router.get('/cancel',[verifyToken], cancel)
