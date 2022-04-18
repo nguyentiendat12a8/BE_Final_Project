@@ -190,6 +190,12 @@ exports.detailHotelRoom = (req, res) => {
             errorCode: 500,
             message: 'Hotel server is error!'
         })
+        if(!post) {
+            res.status(400).send({
+                errorCode: 400,
+                message: 'invalid link!'
+            })
+        }
         return res.status(200).send({
             errorCode: 0,
             data: post
