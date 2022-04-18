@@ -201,9 +201,8 @@ exports.success = async (req, res, next) => {
             } else {
                 const billTour = new BillTour({
                     price: tour.price,
-                    userID: req.accountID, //req.userId
-                    tourID: req.params.tourID, //req.params.tourId
-                    //bookedDate: Date.now()
+                    userID: req.accountID,
+                    tourID: req.params.tourID, 
                 })
                 billTour.save()
                     .then(() => {
@@ -339,6 +338,12 @@ exports.rateTour = (req, res) => {
             errorCode: 500,
             message: 'Bill tour server is error!'
         })
+        if(!bill){
+            return res.status(400).send({
+                errorCode: 400,
+                message: 'Invalid link!'
+            })
+        }
         const rate = new RateTour({
             point: req.body.point,
             comment: req.body.comment,

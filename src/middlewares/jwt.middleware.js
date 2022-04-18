@@ -77,7 +77,7 @@ exports.isAdmin = (req, res, next) => {
         if(!user){
             return res.status(401).send({
                 errorCode: 401,
-                message: 'Require admin role!'
+                message: 'Request admin role!'
             })
         }
         next()
@@ -95,10 +95,9 @@ exports.isModerator = (req, res, next) => {
         if(!moderator){
             return res.status(401).send({
                 errorCode: 401,
-                message: 'Require moderator role!'
+                message: 'Request moderator role!'
             })
         }
-        
         next()
     })
 }
