@@ -122,11 +122,17 @@ exports.updateHotelRoom = (req, res) => {
         },
         description: req.body.description,
         private: req.body.private,
-    }, { new: true }, err => {
+    }, { new: true }, (err, room) => {
         if (err) return res.status(500).send({
             errorCode: 500,
             message: err.message
         })
+        if(!room) {
+            return res.status(400).send({
+                errorCode: 400,
+                message: 'Invalid link'
+            })
+        }
         return res.status(200).send({
             errorCode: 0,
             message: 'Update hotel room successfully!'
@@ -316,7 +322,7 @@ exports.paymentAdsHotelRoom = async (req, res) => {
         if (paypalInfo === null) {
             return res.status(400).send({
                 errorCode: 400,
-                message: 'The manager of the tour you booked does not have an online payment method'
+                message: 'The admin does not have an online payment method'
             })
         }
 
@@ -388,7 +394,7 @@ exports.successAdsHotelRoom = async (req, res) => {
         if (paypalInfo === null) {
             return res.status(400).send({
                 errorCode: 400,
-                message: 'The manager of the tour you booked does not have an online payment method'
+                message: 'The admin does not have an online payment method'
             })
         }
 

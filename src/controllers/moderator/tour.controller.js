@@ -669,7 +669,7 @@ exports.paymentAdsTour = async (req, res) => {
         if (paypalInfo === null) {
             return res.status(400).send({
                 errorCode: 400,
-                message: 'The manager of the tour you booked does not have an online payment method'
+                message: 'The admin does not have an online payment method'
             })
         }
 
@@ -741,7 +741,7 @@ exports.successAdsTour = async (req, res) => {
         if (paypalInfo === null) {
             return res.status(400).send({
                 errorCode: 400,
-                message: 'The manager of the tour you booked does not have an online payment method'
+                message: 'The admin does not have an online payment method'
             })
         }
 
