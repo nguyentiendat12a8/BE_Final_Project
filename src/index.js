@@ -30,7 +30,7 @@ routeAdmin(app)
 
 //test payment
 
-app.get('/', (req, res) => res.render('oke'));
+app.get('/', (req, res) => res.send('oke'));
 
 
 app.listen(port, () => {
