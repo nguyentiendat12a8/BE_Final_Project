@@ -45,6 +45,12 @@ exports.editExperiencePost = (req, res) => {
             errorCode: 500,
             message: 'Edit post experience function is error!'
         })
+        if(!post) {
+            return res.status(400).send({
+                errorCode: 400,
+                message: 'Invalid link!'
+            })
+        }
         var show = {
             postText: post.postText,
             photo: post.photo,
@@ -83,11 +89,17 @@ exports.updateExperiencePost = async (req, res) => {
 }
 
 exports.deleteExperiencePost = (req, res) => {
-    PostExperience.findOneAndDelete({ _id: req.params.postExperienceID, userID: req.accountID }, err => {
+    PostExperience.findOneAndDelete({ _id: req.params.postExperienceID, userID: req.accountID }, (err, post) => {
         if (err) return res.status(500).send({
             errorCode: 500,
             message: 'Delete post experience function is error!'
         })
+        if(!post) {
+            return res.status(400).send({
+                errorCode: 400,
+                message: 'Cant delete other peoples posts!'
+            })
+        }
         return res.status(200).send({
             errorCode: 0,
             message: 'Delete experience post successfully!'

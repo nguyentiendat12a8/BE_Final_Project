@@ -9,7 +9,7 @@ router.post('/add-post-experience', [verifyToken, upload.array('photo')], addExp
 router.get('/edit-post-experience/:postExperienceID', [verifyToken], editExperiencePost)
 router.patch('/update-post-experience/:postExperienceID', [verifyToken,upload.array('photo')], updateExperiencePost)
 router.delete('/delete-post-experience/:postExperienceID', [verifyToken], deleteExperiencePost)
-router.get('/view-list-post-experience', [verifyToken], listExperiencePost)
+router.get('/view-list-post-experience', listExperiencePost)
 router.get('/my-post', [verifyToken], myPost)
 
 router.post('/like-post-experience/:postExperienceID', [verifyToken, checkLike], likeExperiencePost)
