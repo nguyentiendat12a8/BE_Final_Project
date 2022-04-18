@@ -67,7 +67,7 @@ exports.verifyRefreshToken = (req, res, next) => {
 }
 
 exports.isAdmin = (req, res, next) => {
-    Admin.findById(req.userId).exec((err, user) => {
+    Admin.findById(req.accountID).exec((err, user) => {
         if (err) {
             return res.status(500).send({
                 errorCode: 500,
@@ -77,7 +77,7 @@ exports.isAdmin = (req, res, next) => {
         if(!user){
             return res.status(401).send({
                 errorCode: 401,
-                message: 'Require user role!'
+                message: 'Require admin role!'
             })
         }
         next()
@@ -85,7 +85,7 @@ exports.isAdmin = (req, res, next) => {
 }
 
 exports.isModerator = (req, res, next) => {
-    Moderator.findById(req.userId).exec((err, moderator)=> {
+    Moderator.findById(req.accountID).exec((err, moderator)=> {
         if (err) {
             return res.status(500).send({
                 errorCode: 500,
