@@ -200,7 +200,10 @@ exports.sendEmailResetPass = async (req, res) => {
   try {
     const schema = Joi.object({ email: Joi.string().email().required() })
     const { error } = schema.validate(req.body)
-    if (error) return res.status(400).send(error.details[0].message)
+    if (error) return res.status(400).send({
+      errorCode: 400,
+      message: error.details[0].message
+    })
 
     const user = await Moderator.findOne({ email: req.body.email })
     if (!user)
@@ -237,7 +240,10 @@ exports.confirmLink = async (req, res) => {
   try {
     const schema = Joi.object({ password: Joi.string().required() })
     const { error } = schema.validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message)
+    if (error) return res.status(400).send({
+      errorCode: 400,
+      message: error.details[0].message
+    })
 
     const user = await Moderator.findById(req.params.accountID);
     if (!user) return res.status(400).send({
@@ -249,7 +255,10 @@ exports.confirmLink = async (req, res) => {
       accountID: user._id,
       token: req.params.token,
     })
-    if (!token) return res.status(400).send("Invalid link or expired 2")
+    if (!token) return res.status(400).send({
+      errorCode: 400,
+      message: "Invalid link or expired 2"
+    })
 
     user.password = bcrypt.hashSync(req.body.password, 8)
     await user.save()
