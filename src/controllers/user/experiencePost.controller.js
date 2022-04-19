@@ -200,7 +200,7 @@ exports.commentExperiencePost = async (req, res) => {
         })
         await Promise.all([comment.save(), Comment.find({ postExperienceID: req.params.postExperienceID })])
             .then(async ([comment, number]) => {
-                await PostExperience.findOneAndUpdate({ _id: req.params.postExperienceID }, { numberOfComment: number.length }, { new: true })
+                await PostExperience.findOneAndUpdate({ _id: req.params.postExperienceID }, { numberOfComment: number.length+1 }, { new: true })
                 return res.status(200).send({
                     errorCode: 0,
                     message: 'number of Comment upload successfully'
