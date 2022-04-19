@@ -190,7 +190,10 @@ exports.sendEmailResetPass = async (req, res) => {
   try {
     const schema = Joi.object({ email: Joi.string().email().required() })
     const { error } = schema.validate(req.body)
-    if (error) return res.status(400).send(error.details[0].message)
+    if (error) return res.status(400).send({
+      errorCode: 400,
+      message: error.details[0].message
+    })
 
     const user = await Admin.findOne({ email: req.body.email })
     if (!user)
@@ -311,11 +314,17 @@ exports.deleteUserAccount = async (req, res) => {
     errorCode: 400,
     message: 'Invalid link'
   })
-  User.findByIdAndUpdate({ _id: userID }, { deleted: true }, { new: true }, err => {
+  User.findByIdAndUpdate({ _id: userID }, { deleted: true }, { new: true }, (err, user) => {
     if (err) return res.status(500).send({
       errorCode: 500,
       message: err.message
     })
+    if(!user) {
+      return res.status(400).send({
+        errorCode: 400,
+        message: 'invalid link!'
+      })
+    }
     return res.status(200).send({
       errorCode: 0,
       message: `Delete user successfully!`
@@ -352,12 +361,16 @@ exports.restoreUserAccount = async (req, res) => {
   const userID = req.params.userID
   if (!userID) return res.status(400).send({
     errorCode: 400,
-    message: 'Invalid link'
+    message: 'Invalid link!'
   })
-  User.findByIdAndUpdate({ _id: userID }, { deleted: false }, { new: true }, (err) => {
+  User.findByIdAndUpdate({ _id: userID }, { deleted: false }, { new: true }, (err, user) => {
     if (err) return res.status(500).send({
       errorCode: 500,
       message: err.message
+    })
+    if(!user) return res.status(400).send({
+      errorCode: 400,
+      message: 'Invalid link!'
     })
     return res.status(200).send({
       errorCode: 0,

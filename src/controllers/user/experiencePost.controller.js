@@ -117,6 +117,7 @@ exports.listExperiencePost = (req, res) => {
         for (i = 0; i < list.length; i++) {
             var user = await User.findById(list[i].userID)
             var post = {
+                _id: list[i]._id,
                 postText: list[i].postText,
                 photo: list[i].photo,
                 address: list[i].address,
