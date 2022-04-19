@@ -235,17 +235,21 @@ exports.schedule = async (req, res) => {
         var listStart = []
         var listCustomStart = []
         var date = new Date()
-
+        var listBillStart = []
+        var listCustomBillStart = []
+        var show = []
+        var showCustom = []
         //handle schedule tour custom
-        listCustom.forEach(e => {
-            if (e.startDate.getFullYear() === date.getFullYear()) {
-                if (e.startDate.getMonth() === date.getMonth()) {
-                    if (e.startDate.getDate() === date.getDate()) {
-                        listCustomStart.push(e)
+        for (i = 0; i < listCustom.length; i++) {
+            if (listCustom[i].startDate.getFullYear() === date.getFullYear()) {
+                if (listCustom[i].startDate.getMonth() === date.getMonth()) {
+                    if (listCustom[i].startDate.getDate() === date.getDate()) {
+                        listCustomStart.push(listCustom[i])
                     }
                 }
             }
-        })
+        }
+
         async function getTourCustomFromBill(e) {
             var check = await BillTour.find({ tourCustomID: e._id })
             if (check) {
@@ -255,6 +259,7 @@ exports.schedule = async (req, res) => {
             }
             return listCustomBillStart
         }
+
         async function getTourCustomAndUserInfo(i) {
             var tour = await TourCustom.findById(i.tourCustomID)
             var user = await User.findById(i.userID)
@@ -266,20 +271,19 @@ exports.schedule = async (req, res) => {
                 userName: user.userName,
                 phone: user.phone
             }
-            return show.push(detail)
+            return showCustom.push(detail)
         }
         //handle schedule tour 
-        list.forEach(e => {
-            if (e.startDate.getFullYear() === date.getFullYear()) {
-                if (e.startDate.getMonth() === date.getMonth()) {
-                    if (e.startDate.getDate() === date.getDate()) {
-                        listStart.push(e)
+        for (i = 0; i < list.length; i++) {
+            if (list[i].startDate.getFullYear() === date.getFullYear()) {
+                if (list[i].startDate.getMonth() === date.getMonth()) {
+                    if (list[i].startDate.getDate() === date.getDate()) {
+                        listStart.push(list[i])
                     }
                 }
             }
-        })
-        var listBillStart = []
-        var listCustomBillStart = []
+        }
+
         async function getTourFromBill(e) {
             var check = await BillTour.find({ tourID: e._id })
             if (check) {
@@ -289,8 +293,6 @@ exports.schedule = async (req, res) => {
             }
             return listBillStart
         }
-        var show = []
-        var showCustom = []
         async function getTourAndUserInfo(i) {
             var tour = await Tour.findById(i.tourID)
             var user = await User.findById(i.userID)
@@ -304,7 +306,8 @@ exports.schedule = async (req, res) => {
             }
             return show.push(detail)
         }
-        await Promise.all(listStart.map(e => getTourFromBill(e)), listCustomStart.map(e => getTourCustomFromBill(e)))
+        await Promise.all(listStart.map(e => getTourFromBill(e)))
+        await Promise.all(listCustomStart.map(e => getTourCustomFromBill(e)))
         await Promise.all(listBillStart.map(i => getTourAndUserInfo(i)), listCustomBillStart.map(i => getTourCustomAndUserInfo(i)))
         return res.status(200).send({
             errorCode: 0,
