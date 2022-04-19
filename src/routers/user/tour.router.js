@@ -28,7 +28,7 @@ router.get('/payment-tour-custom',  [verifyToken], paymentTourCustom)
 router.get('/successPayCustom/:tourCustomID',  [verifyToken],successPayCustom)/
 router.get('/cancle-pay-custom', [verifyToken], cancelPayCustom)
 
-//filter
+//filter, search
 router.get('/search-tour', searchTour)
 router.get('/filter-tour', filterTour)
 
