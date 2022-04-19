@@ -12,7 +12,5 @@ function route(app){
     app.use('/user/hotel', hotel)
 }
 
-
-
 module.exports = route;
 

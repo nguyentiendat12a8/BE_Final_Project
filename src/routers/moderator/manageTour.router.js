@@ -11,7 +11,7 @@ router.get('/edit-tour/:slug',[verifyToken, isModerator], editTour)
 router.patch('/update-tour/:slug', [verifyToken, isModerator], updateTour)
 router.get('/list-tour', [verifyToken, isModerator], listTour)
 router.get('/detail-tour/:slug', [verifyToken, isModerator], detailTour)
-router.get('/schedule', [verifyToken,isModerator], schedule) // thieu lich bat dau cho custom tour va fix startdate -- TEST LẠI
+router.get('/schedule', [verifyToken,isModerator], schedule) 
 
 //bill tour
 router.get('/list-bill-tour', [verifyToken, isModerator],listBillTour)
