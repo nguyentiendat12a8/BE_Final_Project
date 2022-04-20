@@ -42,7 +42,9 @@ exports.dashboard = async (req, res) => {
                 })
                 return totalRoom
             }
-            await Promise.all(tour.map(i => getBillTour(i)), tourCustom.map(j => getBillTourCustom(j)), room.map(k => getBillRoom(k)))
+            await Promise.all(tour.map(i => getBillTour(i)))
+            await Promise.all(tourCustom.map(j => getBillTourCustom(j)))
+            await Promise.all(room.map(k => getBillRoom(k)))
             return res.status(200).send({
                 errorCode: 0,
                 totalTour,
