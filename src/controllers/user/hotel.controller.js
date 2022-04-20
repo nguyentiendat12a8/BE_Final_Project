@@ -105,8 +105,8 @@ exports.paymentHotelRoom = async (req, res) => {
                 "payment_method": "paypal"
             },
             "redirect_urls": {
-                "return_url": `http://localhost:4000/user/hotel/success/${req.query.hotelRoomID}/${req.query.checkIn}/${req.query.checkOut}`,
-                "cancel_url": "http://localhost:4000/user/tour/cancel"
+                "return_url": `https://finalprojectgreenwich.herokuapp.com/user/hotel/success/${req.query.hotelRoomID}/${req.query.checkIn}/${req.query.checkOut}`,
+                "cancel_url": "https://finalprojectgreenwich.herokuapp.com/user/tour/cancel"
             },
             "transactions": [{
                 "item_list": {

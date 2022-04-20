@@ -114,8 +114,8 @@ exports.paymentTour = async (req, res) => {
                 "payment_method": "paypal"
             },
             "redirect_urls": {
-                "return_url": `http://localhost:4000/user/tour/success/${req.params.tourID}`,
-                "cancel_url": "http://localhost:4000/user/tour/cancel"
+                "return_url": `https://finalprojectgreenwich.herokuapp.com/user/tour/success/${req.params.tourID}`,
+                "cancel_url": "https://finalprojectgreenwich.herokuapp.com/user/tour/cancel"
             },
             "transactions": [{
                 "item_list": {
@@ -591,8 +591,8 @@ exports.paymentTourCustom = async (req, res) => {
                 "payment_method": "paypal"
             },
             "redirect_urls": {
-                "return_url": `http://localhost:4000/user/tour/successPayCustom/${req.query.tourCustomID}`,
-                "cancel_url": "http://localhost:4000/user/tour/cancelPayCustom"
+                "return_url": `https://finalprojectgreenwich.herokuapp.com/user/tour/successPayCustom/${req.query.tourCustomID}`,
+                "cancel_url": "https://finalprojectgreenwich.herokuapp.com/user/tour/cancelPayCustom"
             },
             "transactions": [{
                 "item_list": {

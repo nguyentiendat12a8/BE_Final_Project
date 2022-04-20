@@ -687,8 +687,8 @@ exports.paymentAdsTour = async (req, res) => {
                 "payment_method": "paypal"
             },
             "redirect_urls": {
-                "return_url": `http://localhost:4000/moderator/tour/success-ads-tour/${req.query.tourID}`,
-                "cancel_url": "http://localhost:4000/moderator/tour/cancel-ads-tour"
+                "return_url": `https://finalprojectgreenwich.herokuapp.com/moderator/tour/success-ads-tour/${req.query.tourID}`,
+                "cancel_url": "https://finalprojectgreenwich.herokuapp.com/moderator/tour/cancel-ads-tour"
             },
             "transactions": [{
                 "item_list": {

@@ -343,8 +343,8 @@ exports.paymentAdsHotelRoom = async (req, res) => {
                 "payment_method": "paypal"
             },
             "redirect_urls": {
-                "return_url": `http://localhost:4000/moderator/hotel/success-ads-hotel-room/${req.query.hotelRoomID}`,//
-                "cancel_url": "http://localhost:4000/moderator/hotel/cancel-ads-hotel-room"
+                "return_url": `https://finalprojectgreenwich.herokuapp.com/moderator/hotel/success-ads-hotel-room/${req.query.hotelRoomID}`,//
+                "cancel_url": "https://finalprojectgreenwich.herokuapp.com/moderator/hotel/cancel-ads-hotel-room"
             },
             "transactions": [{
                 "item_list": {
