@@ -317,124 +317,91 @@ exports.filterHotelRoom = async (req, res) => {
     //address input condition is always present before input
     try {
         const address = req.query.address
-        const checkIn = new Date(req.query.checkIn)
-        const checkOut = new Date(req.query.checkOut)
+        const checkIn = req.query.checkIn
+        const checkOut = req.query.checkOut
         const numberOfPeople = req.query.numberOfPeople
         if (checkIn && checkOut && !numberOfPeople) {
-            const listBill = await BillHotelRoom.find({})
-            if (!listBill) {
-                return res.status(500).send({
-                    errorCode: 500,
-                    message: 'Bill Hotel Room server is error!'
-                })
-            }
-            var roomFromBill = []
-            async function getRoomFromBill(room) {
-                var roomBill = await HotelRoom.findOne({ _id: room.hotelRoomID, address })
-                return roomFromBill.push(roomBill)
-            }
-            await Promise.all(listBill.map(room => getRoomFromBill(room)))
-
-            var show = []
-            var showFromBill = []
-
             const listRoom = await HotelRoom.find({ address })
-            listRoom.forEach(e => {
-                show.push(e._id)
-            })
-            //Processing to show rooms that have been booked do not coincide with the required date
-            if (roomFromBill.includes(!null)) {
-                roomFromBill.forEach(e => {
-                    var formatCheckIn = new Date(e.checkIn)
-                    var formatCheckOut = new Date(e.checkOut)
-                    if (checkIn >= (formatCheckOut.setDate(formatCheckOut.getDate() + 1))) {
-                        showFromBill.push(e.hotelRoomID)
-                    } else if (checkOut <= (formatCheckIn.setDate(formatCheckIn.getDate() - 1))) {
-                        showFromBill.push(e.hotelRoomID)
-                    } else {
-                        show.pop(e.hotelRoomID)
-                    }
+            const listBill = await BillHotelRoom.find({})
+            var loai = []
+            var filtered
+            for (i = 0; i < listBill.length; i++) {
+                var formatCheckIn = new Date(listBill[i].checkIn)
+                var formatCheckOut = new Date(listBill[i].checkOut)
+                if (new Date(checkIn) >= (formatCheckOut.setDate(formatCheckOut.getDate() + 1))) {
+                } else if (new Date(checkOut) <= (formatCheckIn.setDate(formatCheckIn.getDate() - 1))) {
+                } else {
+                    loai.push(listBill[i].hotelRoomID.toString())
+                }
+            }
+            if (loai.length === 0) {
+                return res.status(200).send({
+                    errorCode: 0,
+                    data: listRoom
+                })
+            } else {
+                let unique = loai.filter((v, i) => loai.indexOf(v) === i)
+                for (i = 0; i < unique.length; i++) {
+                    filtered = listRoom.filter(function (value, index, arr) {
+                        if (value._id.toString() !== unique[i]) {
+                            return value
+                        }
+                    })
+                }
+                return res.status(200).send({
+                    errorCode: 0,
+                    data: filtered
                 })
             }
-            var showAll = show + ',' + showFromBill
-            var formatShowAll = new Object(showAll.split(','))
-            let unique = formatShowAll.filter((v, i) => formatShowAll.indexOf(v) === i)
-            var listDetail = []
-            async function getRoom(id) {
-                if (id === '') return
-                var room = await HotelRoom.find({ _id: id })
-                return listDetail.push(room)
-            }
-            await Promise.all(unique.map(id => getRoom(id)))
-            return res.status(200).send({
-                errorCode: 0,
-                data: listDetail
-            })
         } else if (checkIn && checkOut && numberOfPeople) {
-            const listBill = await BillHotelRoom.find({})
-            if (!listBill) {
-                return res.status(500).send({
-                    errorCode: 500,
-                    message: 'Bill Hotel Room server is error!'
-                })
-            }
-            var roomFromBill = []
-            async function getRoomFromBill(room) {
-                var roomBill = await HotelRoom.findOne({ _id: room.hotelRoomID, address })
-                return roomFromBill.push(roomBill)
-            }
-            await Promise.all(listBill.map(room => getRoomFromBill(room)))
-
-            var showList = []
-            var showFromBill = []
-
             const listRoom = await HotelRoom.find({ address })
-            listRoom.forEach(e => {
-                showList.push(e._id)
-            })
-            //xử lý để show ra các room đã được book không trùng với ngày cần
-            if (roomFromBill.includes(!null)) {
-                roomFromBill.forEach(e => {
-                    var formatCheckIn = new Date(e.checkIn)
-                    var formatCheckOut = new Date(e.checkOut)
-                    if (checkIn >= (formatCheckOut.setDate(formatCheckOut.getDate() + 1))) {
-                        showFromBill.push(e.hotelRoomID)
-                    } else if (checkOut <= (formatCheckIn.setDate(formatCheckIn.getDate() - 1))) {
-                        showFromBill.push(e.hotelRoomID)
-                    } else {
-                        showList.pop(e.hotelRoomID)
-                    }
-                })
-            }
-
-            var showAll = showList + ',' + showFromBill
-            var formatShowAll = new Object(showAll.split(','))
-            let unique = formatShowAll.filter((v, i) => formatShowAll.indexOf(v) === i)
-            var listDetail = []
-            async function getRoom(id) {
-                if (id === '') return
-                var room = await HotelRoom.find({ _id: id })
-                return listDetail.push(room)
-            }
-            await Promise.all(unique.map(id => getRoom(id)))
-            //filter number of people
+            const listBill = await BillHotelRoom.find({})
+            var loai = []
+            var filtered
             var show = []
-            listDetail.forEach(e => {
-                e.forEach(i => {
+            for (i = 0; i < listBill.length; i++) {
+                var formatCheckIn = new Date(listBill[i].checkIn)
+                var formatCheckOut = new Date(listBill[i].checkOut)
+                if (new Date(checkIn) >= (formatCheckOut.setDate(formatCheckOut.getDate() + 1))) {
+                } else if (new Date(checkOut) <= (formatCheckIn.setDate(formatCheckIn.getDate() - 1))) {
+                } else {
+                    loai.push(listBill[i].hotelRoomID.toString())
+                }
+            }
+            if (loai.length === 0) {
+                listRoom.forEach(i => {
                     if (numberOfPeople <= (i.bedroom.singleBed * 1 + i.bedroom.doubleBed * 2 + i.bedroom.queenSizeBed * 2 + i.bedroom.kingSizeBed * 2)) {
                         show.push(i)
                     }
                 })
-            })
-
-            return res.status(200).send({
-                errorCode: 0,
-                data: show
-            })
+                return res.status(200).send({
+                    errorCode: 0,
+                    data: show
+                })
+            } else {
+                let unique = loai.filter((v, i) => loai.indexOf(v) === i)
+                for (i = 0; i < unique.length; i++) {
+                    filtered = listRoom.filter(function (value, index, arr) {
+                        if (value._id.toString() !== unique[i]) {
+                            return value
+                        }
+                    })
+                }
+                filtered.forEach(i => {
+                    if (numberOfPeople <= (i.bedroom.singleBed * 1 + i.bedroom.doubleBed * 2 + i.bedroom.queenSizeBed * 2 + i.bedroom.kingSizeBed * 2)) {
+                        show.push(i)
+                    }
+                })
+                return res.status(200).send({
+                    errorCode: 0,
+                    data: show
+                })
+            }
 
         } else if (!checkIn && !checkOut && numberOfPeople) {
             var show = []
-            const list = await HotelRoom.find({})
+            const list = await HotelRoom.find({address})
+            console.log(list)
             list.foreach(e => {
                 if (numberOfPeople <= (e.bedroom.singleBed * 1 + e.bedroom.doubleBed * 2 + e.bedroom.queenSizeBed * 2 + e.bedroom.kingSizeBed * 2)) {
                     show.push(e)
