@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
-const softDelete = require('mongoose-delete')
 const { Account } = require("./user.schema")
 const { BillTour } = require('./billTour.schema')
 const {Tour} = require('./tour.schema')
