@@ -27,6 +27,12 @@ exports.verifyToken = async (req, res, next) => {
                 })
             }
             req.accountID = decoded.id
+            req.info = {
+                userName: decoded.userName,
+                email: decoded.email,
+                phone: decoded.phone,
+                avatar: decoded.avatar
+            }
             next()
         })
     } catch (error) {

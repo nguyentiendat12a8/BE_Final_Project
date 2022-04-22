@@ -66,7 +66,7 @@ exports.signin = async (req, res, next) => {
       })
     }
     if (bcrypt.compareSync(password, user.password)) {
-      const token = jwt.sign({ id: user._id }, process.env.TOKEN_KEY, {
+      const token = jwt.sign({ id: user._id, userName: user.userName, email: user.email, phone: user.phone, avatar: user.avatar }, process.env.TOKEN_KEY, {
         expiresIn: process.env.tokenLife,
       })
       const refreshToken = jwt.sign(
