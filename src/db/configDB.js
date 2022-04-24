@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 exports.connectDB = async () =>{
     try {
-        await mongoose.connect('mongodb+srv://nguyentiendat12a8:sofm27112000@cluster0.qaz2s.mongodb.net/projectFinal', {
+        await mongoose.connect(process.env.DB, {
             // useNewUrlParser: true,
             // useUnifiedTopology: true,
             // useCreateIndex: true,
