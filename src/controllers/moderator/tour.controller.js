@@ -802,13 +802,3 @@ exports.cancelAdsTour = (req, res) => {
         message: 'Cancel payment ads tour successfully!'
     })
 }
-
-// exports.listAdsTour = (req,res) =>{
-//     Tour.find({moderatorID: req.accountID}, (err, list) =>{
-//         if(err) return res.status(500).send({
-//             errorCode: 500,
-//             message: err
-//         })
-
-//     })
-// } ////// not done
