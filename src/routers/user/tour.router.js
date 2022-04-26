@@ -31,9 +31,5 @@ router.get('/cancle-pay-custom', [verifyToken], cancelPayCustom)
 //filter, search
 router.get('/search-tour', searchTour)
 router.get('/filter-tour', filterTour)
-//vnpay pay
-router.post('/create_payment_url', vnpay)
-router.get('/vnpay_ipn', vnpayIpn)
-router.get('/vnpay_return', vnpayReturn)
 
 module.exports = router
