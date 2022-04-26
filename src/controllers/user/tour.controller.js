@@ -987,7 +987,7 @@ exports.vnpay =  (req, res, next) => {
         req.socket.remoteAddress ||
         req.connection.socket.remoteAddress;
 
-    //var config = require('config');
+    //var config = require('config'); //bo
     var dateFormat = require('dateformat');
 
     
