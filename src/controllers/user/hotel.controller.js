@@ -323,7 +323,7 @@ exports.filterHotelRoom = async (req, res) => {
         if (checkIn && checkOut && !numberOfPeople) {
             const listRoom = await HotelRoom.find({ address })
             const listBill = await BillHotelRoom.find({})
-            var loai = []
+            var remove = []
             var filtered
             for (i = 0; i < listBill.length; i++) {
                 var formatCheckIn = new Date(listBill[i].checkIn)
@@ -331,16 +331,16 @@ exports.filterHotelRoom = async (req, res) => {
                 if (new Date(checkIn) >= (formatCheckOut.setDate(formatCheckOut.getDate() + 1))) {
                 } else if (new Date(checkOut) <= (formatCheckIn.setDate(formatCheckIn.getDate() - 1))) {
                 } else {
-                    loai.push(listBill[i].hotelRoomID.toString())
+                    remove.push(listBill[i].hotelRoomID.toString())
                 }
             }
-            if (loai.length === 0) {
+            if (remove.length === 0) {
                 return res.status(200).send({
                     errorCode: 0,
                     data: listRoom
                 })
             } else {
-                let unique = loai.filter((v, i) => loai.indexOf(v) === i)
+                let unique = remove.filter((v, i) => remove.indexOf(v) === i)
                 for (i = 0; i < unique.length; i++) {
                     filtered = listRoom.filter(function (value, index, arr) {
                         if (value._id.toString() !== unique[i]) {
@@ -356,7 +356,7 @@ exports.filterHotelRoom = async (req, res) => {
         } else if (checkIn && checkOut && numberOfPeople) {
             const listRoom = await HotelRoom.find({ address })
             const listBill = await BillHotelRoom.find({})
-            var loai = []
+            var remove = []
             var filtered
             var show = []
             for (i = 0; i < listBill.length; i++) {
@@ -365,10 +365,10 @@ exports.filterHotelRoom = async (req, res) => {
                 if (new Date(checkIn) >= (formatCheckOut.setDate(formatCheckOut.getDate() + 1))) {
                 } else if (new Date(checkOut) <= (formatCheckIn.setDate(formatCheckIn.getDate() - 1))) {
                 } else {
-                    loai.push(listBill[i].hotelRoomID.toString())
+                    remove.push(listBill[i].hotelRoomID.toString())
                 }
             }
-            if (loai.length === 0) {
+            if (remove.length === 0) {
                 listRoom.forEach(i => {
                     if (numberOfPeople <= (i.bedroom.singleBed * 1 + i.bedroom.doubleBed * 2 + i.bedroom.queenSizeBed * 2 + i.bedroom.kingSizeBed * 2)) {
                         show.push(i)
@@ -379,7 +379,7 @@ exports.filterHotelRoom = async (req, res) => {
                     data: show
                 })
             } else {
-                let unique = loai.filter((v, i) => loai.indexOf(v) === i)
+                let unique = remove.filter((v, i) => remove.indexOf(v) === i)
                 for (i = 0; i < unique.length; i++) {
                     filtered = listRoom.filter(function (value, index, arr) {
                         if (value._id.toString() !== unique[i]) {
