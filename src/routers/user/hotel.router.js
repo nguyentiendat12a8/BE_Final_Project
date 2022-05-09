@@ -8,8 +8,8 @@ const router = express.Router()
 
 router.get('/list-hotel-room', listHotelRoom)
 router.get('/detail-hotel-room/:slug',[checkTimeBooking], detailHotelRoom)
-router.get('/payment-hotel-room', paymentHotelRoom)
-router.get('/success/:hotelRoomID/:checkIn/:checkOut', successHotelRoom) 
+router.get('/payment-hotel-room',[verifyToken], paymentHotelRoom)
+router.get('/success/:hotelRoomID/:checkIn/:checkOut',[verifyToken], successHotelRoom) 
 router.get('/cancel', cancelHotelRoom)
 
 //bill

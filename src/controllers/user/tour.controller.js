@@ -94,8 +94,8 @@ exports.detailTour = (req, res, next) => {
 
 exports.paymentTour = async (req, res) => {
     try {
-        const tour = await Tour.findById(req.params.tourID)
-        const paypalInfo = await PaypalInfo.findOne({ moderatorID: tour._id })
+        const tour = await Tour.findById(req.query.tourID)
+        const paypalInfo = await PaypalInfo.findOne({ moderatorID: tour.moderatorID })
         if (paypalInfo === null) {
             return res.status(400).send({
                 errorCode: 400,
@@ -114,7 +114,7 @@ exports.paymentTour = async (req, res) => {
                 "payment_method": "paypal"
             },
             "redirect_urls": {
-                "return_url": `https://finalprojectgreenwich.herokuapp.com/user/tour/success/${req.params.tourID}`,
+                "return_url": `https://finalprojectgreenwich.herokuapp.com/user/tour/success/${req.query.tourID}`,
                 "cancel_url": "https://finalprojectgreenwich.herokuapp.com/user/tour/cancel"
             },
             "transactions": [{
@@ -165,7 +165,7 @@ exports.paymentTour = async (req, res) => {
 
 exports.success = async (req, res, next) => {
     try {
-        const tour = await Tour.findById(req.params.slug)
+        const tour = await Tour.findById(req.params.tourID)
         const paypalInfo = await PaypalInfo.findOne({ moderatorID: tour.moderatorID })
         if (paypalInfo === null) {
             return res.status(400).send({

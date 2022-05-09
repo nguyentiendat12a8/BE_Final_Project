@@ -6,7 +6,7 @@ const Moderator = db.moderator
 
 exports.verifyToken = async (req, res, next) => {
     try {
-        let token = req.body.token || req.query.token || req.headers["x-access-token"];
+        let token = req.body.token || req.headers["x-access-token"];
         if (!token) {
             return res.status(401).send({
                 errorCode: 401,
